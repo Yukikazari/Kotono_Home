@@ -1,0 +1,20 @@
+﻿<Window x:Class="Project.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Project"
+        mc:Ignorable="d"
+        Title="設定" Height="400" Width="400">
+    <Grid>
+        <TabControl Margin="20,20,20,50">
+            <TabItem Header="基本設定">
+
+            </TabItem>
+            <TabItem Header="Kotono系"></TabItem>
+            <TabItem Header="ボイロ系"></TabItem>
+        </TabControl>
+        
+    </Grid>
+
+</Window>
