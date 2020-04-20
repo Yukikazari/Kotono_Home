@@ -70,5 +70,65 @@ namespace Project.Properties {
                 this["WindowTop"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public double SetWindowWidth {
+            get {
+                return ((double)(this["SetWindowWidth"]));
+            }
+            set {
+                this["SetWindowWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public double SetWindowHeight {
+            get {
+                return ((double)(this["SetWindowHeight"]));
+            }
+            set {
+                this["SetWindowHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public double SetWindowLeft {
+            get {
+                return ((double)(this["SetWindowLeft"]));
+            }
+            set {
+                this["SetWindowLeft"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public double SetWindowTop {
+            get {
+                return ((double)(this["SetWindowTop"]));
+            }
+            set {
+                this["SetWindowTop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsFront {
+            get {
+                return ((bool)(this["IsFront"]));
+            }
+            set {
+                this["IsFront"] = value;
+            }
+        }
     }
 }

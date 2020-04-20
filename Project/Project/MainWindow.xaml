@@ -6,56 +6,60 @@
         xmlns:local="clr-namespace:Project"
         mc:Ignorable="d"
         AllowDrop="True"
+        SizeToContent="WidthAndHeight"
         Drop="Window_Drop" PreviewDragOver="HomeWindow_PreviewDragOver" 
         Topmost="True"
         Closing="Window_Closing"
+        SizeChanged="HomeWindow_SizeChanged"
         
-        Title="Kotono_Home" Width="300" Height="120" MinWidth="300" MinHeight="120">
+        Title="Kotono_Home" MinWidth="270" MinHeight="120">
     <Window.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="設定" InputGestureText="Shift+S"/>
+            <MenuItem Header="設定" Click="Menu_Set"/>
             <MenuItem x:Name="Menu_Help" Header="ヘルプ">
                 <MenuItem Header="KotonoSync" Click="Menu_Help_Sync" />
                 <MenuItem Header="KotonoAssist" Click="Menu_Help_Assist"/>
                 <MenuItem Header="KotonoTone" Click="Menu_Help_Tone"/>
                 <MenuItem Header="KotonoFader" Click="Menu_Help_Fader"/>
                 <MenuItem Header="使い方" Click="Menu_Help_Home"/>
+                <MenuItem Header="バージョン情報"/>                      <!--あとでやる-->
             </MenuItem>
         </ContextMenu>
     </Window.ContextMenu>
-    <StackPanel Orientation="Horizontal" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="255" MinHeight="80">
         <StackPanel Margin="5,0,0,5">
             <Button x:Name="SyncBtn" Margin="0" Background="White" Click="SyncBtn_Click" MinWidth="50" MinHeight="50">
                 <Image Source=".\icon\KotonoSync.png"/>
             </Button>
-            <TextBlock HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Sync" TextAlignment="Center" VerticalAlignment="Top"/>
+            <TextBlock x:Name="Sync_Text" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Sync" TextAlignment="Center" VerticalAlignment="Top"/>
         </StackPanel>
         <StackPanel Margin="5,0,0,5">
             <Button x:Name="AssistBtn" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Background="White" Click="AssistBtn_Click" MinWidth="50" MinHeight="50">
                 <Image Source=".\icon\KotonoAssist.png"/>
             </Button>
-            <TextBlock HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Assist" TextAlignment="Center" VerticalAlignment="Top"/>
+            <TextBlock x:Name="Assist_Text" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Assist" TextAlignment="Center" VerticalAlignment="Top"/>
         </StackPanel>
         <StackPanel Margin="5,0,0,5">
             <Button x:Name="ToneBtn" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Background="White" Click="ToneBtn_Click" MinWidth="50" MinHeight="50">
                 <Image Source=".\icon\KotonoTone.png"/>
             </Button>
-            <TextBlock HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Tone" TextAlignment="Center" VerticalAlignment="Top"/>
+            <TextBlock x:Name="Tone_Text" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Tone" TextAlignment="Center" VerticalAlignment="Top"/>
         </StackPanel>
         <StackPanel Margin="5,0,0,5">
             <Button x:Name="FaderBtn" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Background="White" Click="FaderBtn_Click" MinWidth="50" MinHeight="50">
                 <Image Source=".\icon\Fader_kari.png"/>
             </Button>
-            <TextBlock HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Fader" TextAlignment="Center" VerticalAlignment="Top"/>
+            <TextBlock x:Name="Fader_Text" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Fader" TextAlignment="Center" VerticalAlignment="Top"/>
         </StackPanel>
-        <WrapPanel Orientation="Vertical" ItemHeight="25" ItemWidth="25" Margin="5,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Button x:Name="AhsBtn" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="25" Height="25" Background="White" Click="AhsBtn_Click">
+        <WrapPanel x:Name="OtherPanel" Orientation="Vertical" ItemHeight="25" ItemWidth="25" Margin="5,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <!--最後に消します-->
+            <Button x:Name="AhsBtn" Background="White">
                 <Image Source=".\icon\VoiceroidEditor.png"/>
             </Button>
-            <Button x:Name="GynBtn" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="25" Height="25" Background="White" Click="GynBtn_Click">
+            <Button x:Name="GynBtn" Background="White">
                 <Image Source=".\icon\GynoidTalkEditor.png"/>
             </Button>
-            <Button x:Name="Unabtn" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Width="25" Height="25" Background="White" Click="Unabtn_Click">
+            <Button x:Name="Unabtn" Background="White">
                 <Image Source=".\icon\OtomachiUnaTalkEx.png"/>
             </Button>
         </WrapPanel>

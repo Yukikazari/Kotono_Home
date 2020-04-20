@@ -45,17 +45,18 @@ namespace Project
                     settings = (HomeSettings)serializer.Deserialize(fs);
                 }
 
-
+                AddOtherBtn();
             }
             catch (FileNotFoundException e)
             {
                 System.Diagnostics.Process.Start(@".\readme.txt");
             }
+
         }
 
         public static HomeSettings settings;
 
-
+        //ボタン系
         private void SyncBtn_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -66,7 +67,8 @@ namespace Project
 
                 Process.Start(pInfo);
             }
-            catch {
+            catch
+            {
                 MessageBox.Show(this, "パスが設定されていません", "KotonoSync");
             }
 
@@ -82,7 +84,8 @@ namespace Project
 
                 Process.Start(pInfo);
             }
-            catch {
+            catch
+            {
                 MessageBox.Show(this, "パスが設定されていません", "KotonoAssist");
             }
 
@@ -98,7 +101,8 @@ namespace Project
 
                 Process.Start(pInfo);
             }
-            catch {
+            catch
+            {
                 MessageBox.Show(this, "パスが設定されていません", "KotonoTone");
             }
 
@@ -114,54 +118,37 @@ namespace Project
 
                 Process.Start(pInfo);
             }
-            catch {
+            catch
+            {
                 MessageBox.Show(this, "パスが設定されていません", "KotonoFader");
             }
 
         }
 
-        private void AhsBtn_Click(object sender, RoutedEventArgs e)
+        private void OtherBtn_Click(object sender, RoutedEventArgs e)
         {
+            var btn = (Button)sender;
+            var name = btn.Name;
+
+            var sid = Regex.Replace(name, "[^0-9]", "");
+            var id = int.Parse(sid);
+
             try
             {
-                ProcessStartInfo pInfo = new ProcessStartInfo();
+            ProcessStartInfo pInfo = new ProcessStartInfo();
 
-                pInfo.FileName = settings.AhsPath;
+            pInfo.FileName = settings.AppPath[id].ExePath;
 
-                Process.Start(pInfo);
+            Process.Start(pInfo);
             }
-            catch { }
+            catch
+            {
+                MessageBox.Show(this, "パスが不正です", "Error");
+            }
 
         }
 
-        private void GynBtn_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                ProcessStartInfo pInfo = new ProcessStartInfo();
-
-                pInfo.FileName = settings.GynPath;
-
-                Process.Start(pInfo);
-            }
-            catch { }
-
-        }
-
-        private void Unabtn_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                ProcessStartInfo pInfo = new ProcessStartInfo();
-
-                pInfo.FileName = settings.UnaPath;
-
-                Process.Start(pInfo);
-            }
-            catch { }
-
-        }
-
+        //開始, 終了時処理
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(HomeSettings));
@@ -174,6 +161,70 @@ namespace Project
             SaveWindowBounds();
         }
 
+        void SaveWindowBounds()
+        {
+            var windowsettings = Settings.Default;
+            WindowState = WindowState.Normal;
+            windowsettings.WindowLeft = Left;
+            windowsettings.WindowTop = Top;
+            windowsettings.WindowWidth = Width;
+            windowsettings.WindowHeight = Height;
+            windowsettings.IsFront = this.Topmost;
+            windowsettings.Save();
+        }
+
+        void RecoverWindowBounds()
+        {
+            var windowsettings = Settings.Default;
+            // 左
+            if (windowsettings.WindowLeft >= 0 &&
+                (windowsettings.WindowLeft + windowsettings.WindowWidth) < SystemParameters.VirtualScreenWidth)
+            { Left = windowsettings.WindowLeft; }
+            // 上
+            if (windowsettings.WindowTop >= 0 &&
+                (windowsettings.WindowTop + windowsettings.WindowHeight) < SystemParameters.VirtualScreenHeight)
+            { Top = windowsettings.WindowTop; }
+            // 幅
+            if (windowsettings.WindowWidth > 0 &&
+                windowsettings.WindowWidth <= SystemParameters.WorkArea.Width)
+            { Width = windowsettings.WindowWidth; }
+            // 高さ
+            if (windowsettings.WindowHeight > 0 &&
+                windowsettings.WindowHeight <= SystemParameters.WorkArea.Height)
+            { Height = windowsettings.WindowHeight; }
+
+            //最前面表示
+            this.Topmost = windowsettings.IsFront;
+        }
+
+        void AddOtherBtn()
+        {
+
+            OtherPanel.Children.Clear();
+
+            int i = 0;
+
+            foreach(var item in settings.AppPath)
+            {
+                var btn = new Button();
+
+                btn.Name = "Btn" + i.ToString();
+                btn.Background = new SolidColorBrush(Colors.White);
+                btn.Click += (sender, e) => OtherBtn_Click(sender, e);
+
+                var icon = new Image();
+
+                icon.Source = new BitmapImage(new Uri(item.IconPath, UriKind.Relative));
+
+                btn.Content = icon;
+
+                OtherPanel.Children.Add(btn);
+
+                i++;
+            }
+        }
+
+        //ウィンドウ系
         private void HomeWindow_PreviewDragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
@@ -335,38 +386,29 @@ namespace Project
             }
         }
 
-        void SaveWindowBounds()
+        private void HomeWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var settings = Settings.Default;
-            WindowState = WindowState.Normal;
-            settings.WindowLeft = Left;
-            settings.WindowTop = Top;
-            settings.WindowWidth = Width;
-            settings.WindowHeight = Height;
-            settings.Save();
+            Control c = (Control)sender;
+            int height = (int)c.Height;
+            int btnsize = (height - 40) / 3;
+
+            SyncBtn.Height = btnsize * 2;
+            AssistBtn.Height = btnsize * 2;
+            ToneBtn.Height = btnsize * 2;
+            FaderBtn.Height = btnsize * 2;
+
+            OtherPanel.ItemWidth = btnsize;
+            OtherPanel.ItemHeight = btnsize;
+
+            Sync_Text.FontSize = btnsize / 2;
+            Tone_Text.FontSize = btnsize / 2;
+            Assist_Text.FontSize = btnsize / 2;
+            Fader_Text.FontSize = btnsize / 2;
+
+            HomeWindow.MinWidth = btnsize * 9 + 45;
         }
 
-        void RecoverWindowBounds()
-        {
-            var settings = Settings.Default;
-            // 左
-            if (settings.WindowLeft >= 0 &&
-                (settings.WindowLeft + settings.WindowWidth) < SystemParameters.VirtualScreenWidth)
-            { Left = settings.WindowLeft; }
-            // 上
-            if (settings.WindowTop >= 0 &&
-                (settings.WindowTop + settings.WindowHeight) < SystemParameters.VirtualScreenHeight)
-            { Top = settings.WindowTop; }
-            // 幅
-            if (settings.WindowWidth > 0 &&
-                settings.WindowWidth <= SystemParameters.WorkArea.Width)
-            { Width = settings.WindowWidth; }
-            // 高さ
-            if (settings.WindowHeight > 0 &&
-                settings.WindowHeight <= SystemParameters.WorkArea.Height)
-            { Height = settings.WindowHeight; }
-        }
-
+        //メニュー
         private void Menu_Help_Sync(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://ch.nicovideo.jp/suzumf/blomaga/ar1073288");
@@ -391,10 +433,20 @@ namespace Project
         {
             System.Diagnostics.Process.Start(@".\HowToUse.txt");
         }
+
+        private void Menu_Set(object sender, RoutedEventArgs e)
+        {
+            var sw = new SettingWindow();
+            sw.ShowDialog();
+
+            if (sw.IsChange)
+            {
+                settings = sw.set;
+                AddOtherBtn();
+            }
+        }
+
+
+
     }
-
-
-
-
-
 }

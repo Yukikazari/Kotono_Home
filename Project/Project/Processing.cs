@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,9 +17,6 @@ namespace Project
         private string _AssistPath;
         private string _TonePath;
         private string _FaderPath;
-        private string _AhsPath;
-        private string _GynPath;
-        private string _UnaPath;
 
         public string Version
         {
@@ -50,25 +48,13 @@ namespace Project
             set { _FaderPath = value; }
         }
 
-        public string AhsPath
-        {
-            get { return _AhsPath; }
-            set { _AhsPath = value; }
-        }
+        public List<PathItem> AppPath { get; set; }
+    }
 
-        public string GynPath
-        {
-            get { return _GynPath; }
-            set { _GynPath = value; }
-        }
-
-        public string UnaPath
-        {
-            get { return _UnaPath; }
-            set { _UnaPath = value; }
-        }
-
-
+    public class PathItem
+    {
+        public string ExePath { get; set; }
+        public string IconPath { get; set; }
     }
 
     public class RegisterExe
@@ -146,18 +132,69 @@ namespace Project
         }
     }
 
-
-    //使わないかも
-    public class MyFileList
+    public class SettingViewModel : INotifyPropertyChanged
     {
-        public MyFileList()
+        private string _SyncPath;
+        private string _AssistPath;
+        private string _TonePath;
+        private string _FaderPath;
+        private List<PathItem> _AppPath;
+
+        public string SyncPath
         {
-            FileNames = new ObservableCollection<string>();
+            get { return this._SyncPath; }
+            set
+            {
+                this._SyncPath = value;
+                this.OnPropertyChanged(nameof(SyncPath));
+            }
         }
-        public ObservableCollection<string> FileNames
+
+        public string AssistPath
         {
-            get;
-            private set;
+            get { return this._AssistPath; }
+            set
+            {
+                this._AssistPath = value;
+                this.OnPropertyChanged(nameof(AssistPath));
+            }
+        }
+
+        public string TonePath
+        {
+            get { return this._TonePath; }
+            set
+            {
+                this._TonePath = value;
+                this.OnPropertyChanged(nameof(TonePath));
+            }
+        }
+
+        public string FaderPath
+        {
+            get { return this._FaderPath; }
+            set 
+            {
+                this._FaderPath = value;
+                this.OnPropertyChanged(nameof(FaderPath));
+            }
+        }
+
+        public List<PathItem> AppPath
+        {
+            get { return this._AppPath; }
+            set
+            {
+                this._AppPath = value;
+                this.OnPropertyChanged(nameof(AppPath));
+            }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged = null;
+        protected void OnPropertyChanged(string info)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
     }
 }
